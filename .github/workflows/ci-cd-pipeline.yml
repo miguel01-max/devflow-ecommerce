@@ -22,5 +22,17 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
+      - name: Build
+        run: node --check app.js
+
       - name: Executar testes
         run: npm test
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Preparar deploy
+        run: echo "Build e testes aprovados. Pipeline pronto para configurar o servidor SSH."
